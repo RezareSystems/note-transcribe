@@ -1,0 +1,25 @@
+.section {
+  padding: 20px 20px 0 20px;
+}
+
+.transcribe-form {
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    resize: none;
+  }
+}
+
+.transcribe-button {
+  font-size: 40px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.table-container{
+  display: flex;
+  .files-list {
+    width: 100%;
+  }
+}

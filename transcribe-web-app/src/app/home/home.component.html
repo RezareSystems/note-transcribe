@@ -1,0 +1,77 @@
+<mat-toolbar color="primary">
+  <span>ScribeMate</span>
+</mat-toolbar>
+<div class="section">
+  <mat-card>
+    <mat-card-title>Meeting details</mat-card-title>
+    <div>
+      <form class="transcribe-form">
+        <mat-form-field>
+          <input matInput placeholder="Meeting name" />
+        </mat-form-field>
+        <mat-form-field>
+          <textarea rows="6" matInput placeholder="Attendees"></textarea>
+          <mat-hint>Separated by a new line</mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Organization Project" />
+        </mat-form-field>
+      </form>
+      <div class="recording-section">
+        <h4>Record file to transcribe</h4>
+        <button mat-raised-button color="primary">Start Recording</button>
+        <h4>or upload File</h4>
+        <button mat-raised-button color="primary">Upload</button>
+      </div>
+      <button class="transcribe-button" mat-raised-button color="primary">
+        Transcribe!
+      </button>
+    </div>
+  </mat-card>
+</div>
+<div class="section">
+  <mat-card>
+    <mat-card-title>Transcribed files</mat-card-title>
+    <h4>Voila! Here's your transcriptions</h4>
+    <div class="table-container">
+        <table mat-table class="files-list">
+            <ng-container matColumnDef="ref">
+                <th mat-header-cell *matHeaderCellDef>Ref</th>
+                <td mat-cell *matCellDef="let element"> {{element.ref}} </td>
+            </ng-container>
+            <ng-container matColumnDef="organisation">
+                <th mat-header-cell *matHeaderCellDef>Organisation</th>
+                <td mat-cell *matCellDef="let element"> {{element.organisation}} </td>
+            </ng-container>
+            <ng-container matColumnDef="meetingdate">
+                <th mat-header-cell *matHeaderCellDef>Meeting date</th>
+                <td mat-cell *matCellDef="let element"> {{element.meetingdate}} </td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
+            <ng-container matColumnDef="audiofile">
+                <th mat-header-cell *matHeaderCellDef>Audio file</th>
+                <td mat-cell *matCellDef="let element"> {{element.audiofile}} </td>
+            </ng-container>
+            <ng-container matColumnDef="jsonfile">
+                <th mat-header-cell *matHeaderCellDef>JSON file</th>
+                <td mat-cell *matCellDef="let element"> {{element.jsonfile}} </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+            </ng-container>
+            <ng-container matColumnDef="transcribedfile">
+                <th mat-header-cell *matHeaderCellDef>Transcribed file</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary">Download</button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+          </table>
+    </div>
+  </mat-card>
+</div>
