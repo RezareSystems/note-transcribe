@@ -45,3 +45,25 @@
 .min100 {
   min-width: 100px;
 }
+
+.app-logo {
+  height: 60px;
+  margin-top: 20px;
+}
+
+.mat-toolbar {
+  background: white;
+}
+
+.extra {
+  margin-bottom: 20px;
+}
+
+.refresh {
+  display: flex;
+  align-items: center;
+
+  h4 {
+    flex: 1;
+  }
+}

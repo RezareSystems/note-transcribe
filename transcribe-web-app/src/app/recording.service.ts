@@ -46,7 +46,7 @@ export class RecordingService {
         type: blob.type,
         lastModified: Date.now()
       });
-      this.blobSubject.next(blob);
+      this.blobSubject.next(file);
       this.blobUrlSubject.next(this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file)));
       this.isRecordingSubject.next(false);
     }).catch(err => console.error(err));

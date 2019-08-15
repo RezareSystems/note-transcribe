@@ -1,5 +1,5 @@
-<mat-toolbar color="primary">
-  <span>ScribeMate</span>
+<mat-toolbar>
+  <img class="app-logo" src="./assets/transcribeapplogo.jpg">
 </mat-toolbar>
 <div class="section">
   <mat-card>
@@ -7,7 +7,7 @@
     <div>
       <form class="transcribe-form">
         <mat-form-field>
-          <input matInput placeholder="Meeting name" />
+          <input matInput placeholder="Meeting name" [formControl]="fileNameControl"/>
         </mat-form-field>
         <mat-form-field>
           <textarea rows="6" matInput placeholder="Attendees"></textarea>
@@ -30,7 +30,8 @@
               <source [src]="blobUrl" type="audio/mpeg" />
           </audio>
       </div>
-      <button class="transcribe-button" mat-raised-button color="primary" [disabled]="isRecording || blob == null">
+      <button class="transcribe-button" mat-raised-button color="primary" [disabled]="isRecording || blob == null || fileNameControl.value == null || fileNameControl.value == '' || fileNameControl.invalid"
+              (click)="transcribe()">
         Transcribe!
       </button>
       <div class="reset-section">
@@ -39,17 +40,20 @@
     </div>
   </mat-card>
 </div>
-<div class="section">
+<div class="section extra">
   <mat-card>
     <mat-card-title>Transcribed files</mat-card-title>
-    <h4>Voila! Here's your transcriptions</h4>
-    <div class="table-container">
-        <table mat-table class="files-list">
-            <ng-container matColumnDef="ref">
+    <div class="refresh">
+      <h4>Voila! Here's your transcriptions</h4>
+      <button mat-raised-button color="primary" (click)="loadJobs()">Refresh</button>
+    </div>
+    <div class="table-container" *ngIf="jobs && jobs.length > 0">
+        <table mat-table class="files-list" [dataSource]="jobs">
+            <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Ref</th>
-                <td mat-cell *matCellDef="let element"> {{element.ref}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
-            <ng-container matColumnDef="organisation">
+            <!-- <ng-container matColumnDef="organisation">
                 <th mat-header-cell *matHeaderCellDef>Organisation</th>
                 <td mat-cell *matCellDef="let element"> {{element.organisation}} </td>
             </ng-container>
@@ -60,14 +64,14 @@
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Date</th>
                 <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-            </ng-container>
+            </ng-container> -->
             <ng-container matColumnDef="audiofile">
                 <th mat-header-cell *matHeaderCellDef>Audio file</th>
-                <td mat-cell *matCellDef="let element"> {{element.audiofile}} </td>
+                <td mat-cell *matCellDef="let element" (click)="download(element.rawName)"> {{element.rawName}} </td>
             </ng-container>
             <ng-container matColumnDef="jsonfile">
                 <th mat-header-cell *matHeaderCellDef>JSON file</th>
-                <td mat-cell *matCellDef="let element"> {{element.jsonfile}} </td>
+                <td mat-cell *matCellDef="let element" (click)="download(element.jsonName)"> {{element.jsonName}} </td>
             </ng-container>
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef>Status</th>
@@ -76,7 +80,9 @@
             <ng-container matColumnDef="transcribedfile">
                 <th mat-header-cell *matHeaderCellDef>Transcribed file</th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary">Download</button>
+                  <a href="{{ 'https://transcribe-processed-bucket.s3-ap-southeast-2.amazonaws.com/' + element.docName }}">
+                    <button mat-raised-button color="primary" [disabled]="element.status !== 'Completed'">Download</button>
+                  </a>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="columns"></tr>
