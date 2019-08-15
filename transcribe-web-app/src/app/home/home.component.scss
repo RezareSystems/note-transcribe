@@ -17,11 +17,13 @@
   margin-top: 20px;
 }
 
-.table-container{
-  display: flex;
-  .files-list {
-    width: 100%;
-  }
+.table-container {
+  overflow-x: auto;
+}
+
+.files-list {
+  width: 100%;
+  min-width: 700px;
 }
 
 .reset-section {
@@ -34,4 +36,12 @@
 
 .upload {
   display: none;
+}
+
+.min60 {
+  min-width: 60px;
+}
+
+.min100 {
+  min-width: 100px;
 }

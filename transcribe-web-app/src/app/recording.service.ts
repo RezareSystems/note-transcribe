@@ -34,7 +34,10 @@ export class RecordingService {
   startRecording() {
     this.recorder.start().then(() => {
       this.isRecordingSubject.next(true);
-    }).catch(err => console.error(err));
+    }).catch(err => {
+      alert('Cannot start recording. Please check if microphone is available.');
+      console.error(err);
+    });
   }
 
   stopRecording() {
