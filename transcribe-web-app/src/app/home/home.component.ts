@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   clear() {
+    this.fileNameControl.reset();
     this.recordingService.clearRecording();
   }
 
