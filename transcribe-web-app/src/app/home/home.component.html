@@ -19,13 +19,23 @@
       </form>
       <div class="recording-section">
         <h4>Record file to transcribe</h4>
-        <button mat-raised-button color="primary">Start Recording</button>
+        <button mat-raised-button color="primary" [disabled]="blob != null" (click)="recordButton()">{{ (isRecording) ? 'Stop Recording' : 'Start Recording' }}</button>
         <h4>or upload File</h4>
-        <button mat-raised-button color="primary">Upload</button>
+        <input class="upload" type="file" accept=".mp3,.mp4,.wav" (change)="onFileChanged($event)" #addFile>
+        <button mat-raised-button color="primary" [disabled]="isRecording || blob != null" (click)="addFile.click()">Upload</button>
       </div>
-      <button class="transcribe-button" mat-raised-button color="primary">
+      <div *ngIf="!isRecording && blobUrl != null"
+            class="player-section">
+          <audio controls>
+              <source [src]="blobUrl" type="audio/mpeg" />
+          </audio>
+      </div>
+      <button class="transcribe-button" mat-raised-button color="primary" [disabled]="isRecording || blob == null">
         Transcribe!
       </button>
+      <div class="reset-section">
+        <button mat-raised-button color="primary" [disabled]="blob == null" (click)="clear()">Reset</button>
+      </div>
     </div>
   </mat-card>
 </div>
